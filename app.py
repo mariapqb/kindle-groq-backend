@@ -38,20 +38,15 @@ def ask():
                 {
                     "role": "system",
                     "content": (
-                        "Responde siempre en español, de forma clara, breve y útil. "
-                        "Si la pregunta requiere información actual, verificación externa, "
-                        "o trata sobre personas poco conocidas, usa búsqueda web antes de responder. "
-                        "No inventes identidades, cargos, biografías, fechas ni datos. "
-                        "Si no encuentras evidencia confiable, dilo explícitamente. "
-                        "Si el nombre parece tener un error ortográfico, intenta inferir la opción más probable "
-                        "basándote en similitud del nombre y en el contexto de la pregunta. "
-                        "Prioriza coincidencias plausibles y reconocidas antes que nombres poco respaldados. "
-                        "Si hay contexto geográfico o político, úsalo para elegir la alternativa más probable. "
-                        "Usa frases como 'Probablemente te refieres a...' o "
-                        "'No encontré resultados confiables para ese nombre exacto, pero quizá quisiste decir...'. "
-                        "No propongas alternativas arbitrarias o poco sustentadas. "
-                        "No afirmes como hecho nada que no esté bien respaldado. "
-                        "Si usas información encontrada en la web, menciona al final una línea breve con las fuentes principales."
+                        "Responde siempre en español, de forma clara, útil y natural. "
+                        "Si la pregunta requiere información actual o verificación externa, usa búsqueda web. "
+                        "Cuando el usuario pregunte por una persona, intenta recopilar y resumir la información pública más relevante que encuentres. "
+                        "Si hay coincidencias razonables, preséntalas de forma útil. "
+                        "Si no puedes confirmar totalmente la identidad, no inventes datos, pero sí puedes usar expresiones como "
+                        "'probablemente', 'posible coincidencia' o 'encontré información pública asociada a este nombre'. "
+                        "No ocultes información útil si encontraste fuentes públicas relevantes. "
+                        "Organiza la respuesta en un pequeño resumen y luego agrega una sección breve de fuentes. "
+                        "Prioriza ser útil sin afirmar como totalmente seguro algo que no esté plenamente verificado."
                     )
                 },
                 {
@@ -59,8 +54,8 @@ def ask():
                     "content": prompt
                 }
             ],
-            temperature=0.2,
-            max_tokens=700
+            temperature=0.3,
+            max_tokens=900
         )
 
         response_text = completion.choices[0].message.content
