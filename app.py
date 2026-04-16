@@ -4,18 +4,16 @@ from flask_cors import CORS
 from groq import Groq
 
 app = Flask(__name__)
-
-# Permite que tu frontend en GitHub Pages consulte este backend
 CORS(app)
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+GROQ_MODEL = os.getenv("GROQ_MODEL", "groq/compound-mini")
 
 @app.route("/", methods=["GET"])
 def home():
     return jsonify({
         "ok": True,
-        "message": "Backend Groq funcionando"
+        "message": "Backend Groq con web search funcionando"
     })
 
 @app.route("/ask", methods=["POST"])
@@ -37,7 +35,16 @@ def ask():
             messages=[
                 {
                     "role": "system",
-                    "content": "Responde en texto claro, breve y útil."
+                    "content": (
+                        "Responde en español, de forma clara, breve y útil. "
+                        "Si la pregunta requiere información actual, nombres dudosos, "
+                        "eventos recientes o verificación externa, usa búsqueda web. "
+                        "Si hay posible error ortográfico en nombres propios, intenta inferir "
+                        "la opción más probable y acláralo con frases como "
+                        "'Probablemente te refieres a...'. "
+                        "Cuando uses información obtenida en la web, menciona al final "
+                        "las fuentes principales en una línea breve."
+                    )
                 },
                 {
                     "role": "user",
@@ -45,7 +52,7 @@ def ask():
                 }
             ],
             temperature=0.4,
-            max_tokens=500
+            max_tokens=700
         )
 
         response_text = completion.choices[0].message.content
