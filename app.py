@@ -43,10 +43,14 @@ def ask():
                         "o trata sobre personas poco conocidas, usa búsqueda web antes de responder. "
                         "No inventes identidades, cargos, biografías, fechas ni datos. "
                         "Si no encuentras evidencia confiable, dilo explícitamente. "
-                        "Si el nombre parece tener un error ortográfico, propone una alternativa con cautela usando frases como "
-                        "'Probablemente te refieres a...' o "
+                        "Si el nombre parece tener un error ortográfico, intenta inferir la opción más probable "
+                        "basándote en similitud del nombre y en el contexto de la pregunta. "
+                        "Prioriza coincidencias plausibles y reconocidas antes que nombres poco respaldados. "
+                        "Si hay contexto geográfico o político, úsalo para elegir la alternativa más probable. "
+                        "Usa frases como 'Probablemente te refieres a...' o "
                         "'No encontré resultados confiables para ese nombre exacto, pero quizá quisiste decir...'. "
-                        "No afirmes como hecho algo que no esté bien respaldado. "
+                        "No propongas alternativas arbitrarias o poco sustentadas. "
+                        "No afirmes como hecho nada que no esté bien respaldado. "
                         "Si usas información encontrada en la web, menciona al final una línea breve con las fuentes principales."
                     )
                 },
@@ -60,10 +64,15 @@ def ask():
         )
 
         response_text = completion.choices[0].message.content
-        return jsonify({"response": response_text})
+
+        return jsonify({
+            "response": response_text
+        })
 
     except Exception as e:
-        return jsonify({"error": f"Error consultando Groq: {str(e)}"}), 500
+        return jsonify({
+            "error": f"Error consultando Groq: {str(e)}"
+        }), 500
 
 
 if __name__ == "__main__":
