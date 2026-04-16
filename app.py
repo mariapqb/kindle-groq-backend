@@ -9,12 +9,14 @@ CORS(app)
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 GROQ_MODEL = os.getenv("GROQ_MODEL", "groq/compound-mini")
 
+
 @app.route("/", methods=["GET"])
 def home():
     return jsonify({
         "ok": True,
         "message": "Backend Groq con web search funcionando"
     })
+
 
 @app.route("/ask", methods=["POST"])
 def ask():
@@ -36,14 +38,16 @@ def ask():
                 {
                     "role": "system",
                     "content": (
-                        "Responde en español, de forma clara, breve y útil. "
-                        "Si la pregunta requiere información actual, nombres dudosos, "
-                        "eventos recientes o verificación externa, usa búsqueda web. "
-                        "Si hay posible error ortográfico en nombres propios, intenta inferir "
-                        "la opción más probable y acláralo con frases como "
-                        "'Probablemente te refieres a...'. "
-                        "Cuando uses información obtenida en la web, menciona al final "
-                        "las fuentes principales en una línea breve."
+                        "Responde siempre en español, de forma clara, breve y útil. "
+                        "Si la pregunta requiere información actual, verificación externa, "
+                        "o trata sobre personas poco conocidas, usa búsqueda web antes de responder. "
+                        "No inventes identidades, cargos, biografías, fechas ni datos. "
+                        "Si no encuentras evidencia confiable, dilo explícitamente. "
+                        "Si el nombre parece tener un error ortográfico, propone una alternativa con cautela usando frases como "
+                        "'Probablemente te refieres a...' o "
+                        "'No encontré resultados confiables para ese nombre exacto, pero quizá quisiste decir...'. "
+                        "No afirmes como hecho algo que no esté bien respaldado. "
+                        "Si usas información encontrada en la web, menciona al final una línea breve con las fuentes principales."
                     )
                 },
                 {
@@ -51,7 +55,7 @@ def ask():
                     "content": prompt
                 }
             ],
-            temperature=0.4,
+            temperature=0.2,
             max_tokens=700
         )
 
